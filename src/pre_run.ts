@@ -16,7 +16,7 @@ async function getTarget() {
     }
 
     const alpineReleaseStat = await stat("/etc/alpine-release", { throwIfNoEntry: false })
-    const code = await exec("which", ["ldd", "-s"])
+    const code = await exec("which", ["ldd", "-s"], { ignoreReturnCode: true })
     const { stdout } = code === 0 ? await spawnAsync("ldd", ["--version"]) : { stdout: "" }
     if (alpineReleaseStat?.isFile() || stdout.includes("musl")) {
       target.push("musl")

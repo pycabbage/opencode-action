@@ -32,14 +32,17 @@ async function g(e, t, n = 10) {
 	return await r.json();
 }
 async function _(e, t = []) {
-	let n = new s(), i = new s(), a = await r(e, t, { listeners: {
-		stdout(e) {
-			n.push(e);
-		},
-		stderr(e) {
-			i.push(e);
+	let n = new s(), i = new s(), a = await r(e, t, {
+		ignoreReturnCode: !0,
+		listeners: {
+			stdout(e) {
+				n.push(e);
+			},
+			stderr(e) {
+				i.push(e);
+			}
 		}
-	} });
+	});
 	return n.push(null), i.push(null), {
 		stdout: await c(n),
 		stderr: await c(i),
@@ -52,7 +55,7 @@ async function v() {
 	let i = [n, t];
 	if (e) {
 		(await u("/proc/cpuinfo", "utf-8")).includes("avx2") && i.push("baseline");
-		let e = await f("/etc/alpine-release", { throwIfNoEntry: !1 }), { stdout: t } = await r("which", ["ldd", "-s"]) === 0 ? await _("ldd", ["--version"]) : { stdout: "" };
+		let e = await f("/etc/alpine-release", { throwIfNoEntry: !1 }), { stdout: t } = await r("which", ["ldd", "-s"], { ignoreReturnCode: !0 }) === 0 ? await _("ldd", ["--version"]) : { stdout: "" };
 		(e?.isFile() || t.includes("musl")) && i.push("musl");
 	}
 	return i.join("-");

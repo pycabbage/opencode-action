@@ -21,6 +21,7 @@ export async function spawnAsync(command: string, args: string[] = []) {
   const stderr = new Readable()
 
   const code = await exec(command, args, {
+    ignoreReturnCode: true,
     listeners: {
       stdout(data) {
         stdout.push(data)
