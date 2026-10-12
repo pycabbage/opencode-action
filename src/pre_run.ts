@@ -2,7 +2,7 @@ import typia from "typia"
 import { fetchWithRetry, spawnAsync } from "./utilities.js"
 import { platform, addPath } from "@actions/core"
 import { exec } from "@actions/exec"
-import { readFile, stat, writeFile, mkdir, rename } from "fs/promises"
+import { readFile, stat, writeFile, mkdir } from "fs/promises"
 import { homedir } from "os"
 import { join } from "path"
 
@@ -54,20 +54,22 @@ async function installOpencode() {
   const tarballBuffer = await response.arrayBuffer()
   await mkdir(directory, { recursive: true })
   await writeFile(join(directory, filename), Buffer.from(tarballBuffer))
+  const installDirectory = join(homedir(), ".opencode")
+  await mkdir(installDirectory, { recursive: true })
   const extractResult = await spawnAsync("tar", [
     "axf",
     join(directory, filename),
+    "-C",
+    installDirectory,
+    "--strip-components=1",
     "package/bin/opencode",
   ])
   if (extractResult.code !== 0) {
     throw new Error(`Failed to extract tarball: ${extractResult.stderr}`)
   }
+  addPath(join(installDirectory, "bin"))
 
-  await mkdir(join(homedir(), ".opencode"), { recursive: true })
-  await rename(join(directory, "package/bin"), join(homedir(), ".opencode"))
-  addPath(join(homedir(), ".opencode", "bin"))
-
-  console.log(`Opencode installed at ${join(homedir(), ".opencode", "bin")}`)
+  console.log(`Opencode installed at ${join(installDirectory, "bin")}`)
 }
 
 void installOpencode()
