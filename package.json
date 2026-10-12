@@ -6,12 +6,20 @@
   "type": "module",
   "main": "dist/index.js",
   "scripts": {
-    "typecheck": "tsc --noEmit",
+    "typecheck": "ttsc --noEmit",
     "lint": "concurrently \"oxfmt\" \"oxlint --fix\"",
     "build": "vite build",
     "prepare": "husky"
   },
+  "dependencies": {
+    "@actions/core": "^3.0.1",
+    "@actions/exec": "^3.0.0",
+    "@actions/github": "^9.1.1",
+    "typia": "^15.1.0",
+    "zod": "^4.6.5"
+  },
   "devDependencies": {
+    "@ttsc/unplugin": "^0.31.3",
     "@types/node": "^26.6.5",
     "concurrently": "^10.0.6",
     "husky": "^9.1.7",
@@ -19,6 +27,7 @@
     "oxfmt": "^0.72.0",
     "oxlint": "^1.87.0",
     "oxlint-tsgolint": "^7.0.2004",
+    "ttsc": "^0.31.3",
     "typescript": "^7.0.2",
     "vite": "^8.3.4"
   },

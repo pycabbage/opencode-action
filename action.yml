@@ -14,10 +14,6 @@ inputs:
     description: "Model variant for provider-specific reasoning effort (e.g., high, max, minimal)"
     required: false
 
-  agent:
-    description: "Agent to use. Must be a primary agent. Falls back to default_agent from config or 'build' if not found."
-    required: false
-
   prompt:
     description: "Custom prompt to override the default prompt"
     required: false
@@ -33,5 +29,5 @@ inputs:
 
 runs:
   using: node24
-  pre: "dist/pre.js"
+  pre: "dist/pre_run.js"
   main: "dist/index.js"
