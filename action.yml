@@ -34,4 +34,4 @@ inputs:
 runs:
   using: node24
   pre: "dist/pre.js"
-  main: "dist/main.js"
+  main: "dist/index.js"
