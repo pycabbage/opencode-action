@@ -1,0 +1,37 @@
+name: OpenCode
+description: An action to run the OpenCode agent.
+
+branding:
+  icon: cpu
+  color: "blue"
+
+inputs:
+  model:
+    description: "Model to use"
+    required: true
+
+  variant:
+    description: "Model variant for provider-specific reasoning effort (e.g., high, max, minimal)"
+    required: false
+
+  agent:
+    description: "Agent to use. Must be a primary agent. Falls back to default_agent from config or 'build' if not found."
+    required: false
+
+  prompt:
+    description: "Custom prompt to override the default prompt"
+    required: false
+
+  use_github_token:
+    description: "Use GITHUB_TOKEN directly instead of OpenCode App token exchange. When true, skips OIDC and uses the GITHUB_TOKEN env var."
+    required: false
+    default: "false"
+
+  mentions:
+    description: "Comma-separated list of trigger phrases (case-insensitive). Defaults to '/opencode,/oc'"
+    required: false
+
+runs:
+  using: node24
+  pre: "dist/pre.js"
+  main: "dist/main.js"
